@@ -5,7 +5,9 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('home.php');
+		$this->load->view('komponen/header');
+		$this->load->view('kirimpesan/index');
+		$this->load->view('komponen/footer');
 	}
 
 }
