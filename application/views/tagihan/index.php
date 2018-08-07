@@ -1,11 +1,26 @@
 <!-- page content -->
+<?php 
+function rupiah($angka){
+  
+    $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+    return $hasil_rupiah;
+ 
+    }
+ ?>
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
+              
+
+            </div>
+
+            <div class="clearfix"></div>
+
+            
+              <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Tagihan</h2>
+                    <h2>Data Tagihan <small><?php echo $title ?></small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -24,32 +39,46 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  
-                    <form class="form-horizontal form-label-left input_mask">
-                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-
-                      <button type="button" class="btn btn-round btn-success">Lancar</button>
-                      <button type="button" class="btn btn-round btn-danger">Tidak Lancar</button>
-
-                      </div>
-
-                      <br>
-
-                      <div class="form-group">
-                        
-                      </div>
-                      <div class="ln_solid"></div>
-                      <div class="form-group" align="center">
-                        
-                          <button type="submit" class="btn btn-success">Kirim</button>
-                        </div>
-                     
-
-                    </form>
+                    
+          
+                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                       <thead>
+                        <tr>
+                          <th>NO</th>
+                          <th>NOSAMB</th>
+                          <th>NAMA</th>
+                          <th>NO HP</th>
+                          <th>TAGIHAN</th>
+                          <th>BULAN TERAKHIR</th>
+                          <th>BULAN TERBARU</th>
+                          <th>TOTAL</th>
+                          <th>Kirim</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php $i=1; foreach ($dataPelanggan as $key){ ?>
+                        <tr>
+                          <td><?php echo $i; ?></td>
+                          <td><?php echo $key->nosamb; ?></td>
+                          <td><?php echo $key->nama; ?></td>
+                          <td><?php echo $key->nohp; ?></td>
+                          <td><?php echo $key->lmbr; ?></td>
+                          <td><?php echo $key->periodemin; ?></td>
+                          <td><?php echo $key->periodemax; ?></td>
+                          <td><?php echo rupiah($key->total); ?></td>
+                          <td><a class="btn btn-success btn-xs"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Kirim Peringatan</a></td>
+                        </tr>
+                      <?php $i++; } ?>
+                      </tbody>
+                    </table>
                   </div>
+
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button type="button" class=" btn btn-large btn-block btn-warning"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Kirim Peringatan Ke Semua List</button>
+                    </div>
                 </div>
               </div>
-            </div>
+            
           </div>
         </div>
         <!-- /page content -->

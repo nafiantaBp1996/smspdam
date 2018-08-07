@@ -5,14 +5,12 @@ class Pelanggan extends CI_Controller {
 
 	public function index()
 	{
-		// load siswa_model
-		$this->load->model('pelanggan_model');
-		// Database 1
-		$data['data1'] = $this->pelanggan_model->get_db1();
-		// Database 2
-		$data['data2'] = $this->pelanggan_model->get_db2();
+		$this->load->model('Pelanggan_Model');
+		$data['daftarpelanggan']=$this->Pelanggan_Model->daftarpelanggan();
 
-		$this->load->view('pelanggan', $data);
+		$this->load->view('komponen/header');
+		$this->load->view('dataplgn/index', $data);
+		$this->load->view('komponen/footer');
 	}
 
 }

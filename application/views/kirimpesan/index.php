@@ -29,7 +29,7 @@
 
                      <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                       <label for="message">Nomor HP :</label>
-                        <input type="text" class="form-control" id="inputSuccess5" placeholder="Phone">
+                        <input type="number" class="form-control" id="inputSuccess5" placeholder="Phone" required="required">
                         <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
                       </div>
 

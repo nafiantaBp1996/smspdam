@@ -18,6 +18,15 @@
     <!-- jQuery custom content scroller -->
     <link href="<?php echo base_url(); ?>assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
 
+   <!-- iCheck -->
+    <link href="<?php echo base_url(); ?>assets/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="<?php echo base_url(); ?>assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url(); ?>assets/build/css/custom.min.css" rel="stylesheet">
   </head>
@@ -28,7 +37,7 @@
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>SMSPDAMPROB</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -52,11 +61,15 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i>Kirim Pesan <span class="fa fa-chevron-down"></span></a>                   
+                  <li><a href="<?php echo site_url('home') ?>"><i class="fa fa-home"></i>Kirim Pesan <span class="fa fa-chevron-down"></span></a>                   
                   </li>                 
-                  <li><a><i class="fa fa-clone"></i>Data Pelanggan <span class="fa fa-chevron-down"></span></a>                    
+                  <li><a href="<?php echo site_url('Pelanggan') ?>"><i class="fa fa-clone"></i>Data Pelanggan <span class="fa fa-chevron-down"></span></a>                    
                   </li>
-                  <li><a><i class="fa fa-clone"></i>Data Tagihan <span class="fa fa-chevron-down"></span></a>                    
+                  <li><a><i class="fa fa-clone"></i>Data Tagihan <span class="fa fa-chevron-down"></span></a> 
+                  <ul class="nav child_menu" style="display: block;">
+                      <li><a href="<?php echo site_url('tagihan/lancar') ?>">Pelanggan Lancar</a></li>
+                      <li><a href="<?php echo site_url('tagihan/tidaklancar') ?>">Pelanggan Tidak Lancar</a></li>
+                    </ul>                   
                   </li>
                 </ul>
               </div>
