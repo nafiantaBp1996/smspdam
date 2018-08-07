@@ -25,18 +25,17 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form class="form-horizontal form-label-left input_mask">
-
+                   <form action="<?php echo site_url('curlsms/kirim') ?>" method="POST" role="form">
                      <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                       <label for="message">Nomor HP :</label>
-                        <input type="number" class="form-control" id="inputSuccess5" placeholder="Phone" required="required">
+                        <input type="number" class="form-control" id="inputSuccess5" placeholder="Awali dengan 62 bukan 0" name="numbers" required="required">
                         <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
                       </div>
 
-                      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                      <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                         <label for="message">Pesan :</label>
-                        <textarea id="message" required="required" class="form-control" name="message" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.." data-parsley-validation-threshold="10" style="margin: 0px -257.938px 0px 0px; width: 496px; height: 145px;"></textarea>
-                      </div>
+                        <input type="text" name="content" class="form-control">
+                        </div>
 
                       <br>
 
@@ -47,13 +46,14 @@
                         
                       </div>
                       <div class="ln_solid"></div>
-                      <div class="form-group" align="center">
+                      <div class="form-group" align="right">
                         
-                          <button type="submit" class="btn btn-success">Kirim</button>
+                          <button type="submit" name="submit" class="btn btn-success">Kirim</button>
                         </div>
                      
 
                     </form>
+
                   </div>
                 </div>
               </div>

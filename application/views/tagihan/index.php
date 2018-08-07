@@ -66,7 +66,7 @@ function rupiah($angka){
                           <td><?php echo $key->periodemin; ?></td>
                           <td><?php echo $key->periodemax; ?></td>
                           <td><?php echo rupiah($key->total); ?></td>
-                          <td><a class="btn btn-success btn-xs"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Kirim Peringatan</a></td>
+                          <td><a href="<?php echo site_url('curlsms/pesan/'.$key->nosamb); ?>" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Kirim Peringatan</a></td>
                         </tr>
                       <?php $i++; } ?>
                       </tbody>
@@ -74,7 +74,10 @@ function rupiah($angka){
                   </div>
 
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <button type="button" class=" btn btn-large btn-block btn-warning"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Kirim Peringatan Ke Semua List</button>
+                    <form action="<?php echo site_url('curlsms/broadcast') ?>" method="POST" role="form">
+                        <button type="submit" name="submit" class=" btn btn-large btn-block btn-warning"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Kirim Peringatan Ke Semua List</button>
+                        <input type="text" name="status" hidden value="<?php echo $status ?>" >
+                    </form>
                     </div>
                 </div>
               </div>

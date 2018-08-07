@@ -17,6 +17,7 @@ class Tagihan extends CI_Controller {
 		$this->load->model('tagihan_model');
 		$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('1');
 		$data['title']="Pelanggan Lancar";
+		$data['status']=1;
 		//$data="";
 		$this->load->view('komponen/header', $data);
 		$this->load->view('tagihan/index',$data);
@@ -27,6 +28,7 @@ class Tagihan extends CI_Controller {
 		$this->load->model('tagihan_model');
 		$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('0');
 		$data['title']="Pelanggan Tidak Lancar";
+		$data['status']=0;
 		//$data="";
 		$this->load->view('komponen/header', $data);
 		$this->load->view('tagihan/index',$data);
