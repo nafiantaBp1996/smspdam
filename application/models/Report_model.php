@@ -15,6 +15,17 @@ class Report_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function getSendData()
+	{
+		$query=$this->db->query("SELECT pelanggan.`nama`,`pelanggan`.`nohp`,senddata.* FROM senddata LEFT JOIN pelanggan ON senddata.nosamb=pelanggan.`nosamb` ORDER BY tglbayar DESC");
+		return $query->result();
+	}
+
+	public function truncateSenddata()
+	{
+		$this->db->truncate('senddata');
+	}
+
 	public function insert($nosamb,$text,$status)
 	{
 		$data=array('nosamb' => $nosamb ,

@@ -17,6 +17,13 @@ class Curlsms extends CI_Controller {
 		$this->load->model('report_model');
 	}
 
+    function rupiah($angka){
+  
+    $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+    return $hasil_rupiah;
+ 
+        }
+
 	function kirim(){
 				$numbers=$this->input->post('numbers');
 				$content=str_replace(" ", "%20", $this->input->post('content'));
@@ -39,12 +46,50 @@ class Curlsms extends CI_Controller {
                 redirect('report/last/1');		
 	}
 
-	function rupiah($angka){
-  
-  	$hasil_rupiah = "Rp " . number_format($angka,2,',','.');
-  	return $hasil_rupiah;
- 
-		}
+    function replypembayaran(){
+                
+        $data=$this->report_model->getSendData();
+        $fields_string="";
+        $jmlData=count($data);
+        if ($jmlData>0)
+        {
+            foreach($data as $key){
+            if(strlen($key->nohp)>10 && strlen($key->nohp)<14)
+            {
+                $nama=str_replace("'", "",$key->nama);
+                if (strlen($key->nama)>15) {
+                    $nama = substr($key->nama, 0, 15);
+                }
+                $cont = "PDAM KOTA PROBOLINGGO: Yth ".$nama." Terima Kasih telah membayar sebesar Rp ".$key->total;
+                $content=str_replace(" ", "%20", $cont);
+                $fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$this->hp($key->nohp)."&content=".$content;
+                $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
+                $stts=json_decode($insert);
+                //var_dump($insert);
+                echo $cont;
+                 if ($stts->status=='0') {
+                    $this->report_model->insert($key->nosamb,$insert,'1');
+
+                 }
+                else
+                {
+                    $this->report_model->insert($key->nosamb,$insert,'0');
+                }
+            }
+                else
+                {
+                    $insert='Nomor Tidak Ada';
+                    $this->report_model->insert($key->nosamb,$insert,'0');
+                }
+                $this->report_model->truncateSenddata();
+            }
+
+        }
+        
+    }
+
+
+	
 
     function pesan($nosamb)
     {
