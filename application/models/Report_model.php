@@ -17,6 +17,7 @@ class Report_model extends CI_Model {
 
 	public function getSendData()
 	{
+
 		$query=$this->db->query("SELECT pelanggan.`nama`,`pelanggan`.`nohp`,senddata.* FROM senddata LEFT JOIN pelanggan ON senddata.nosamb=pelanggan.`nosamb` ORDER BY tglbayar DESC");
 		return $query->result();
 	}
@@ -31,7 +32,7 @@ class Report_model extends CI_Model {
 		$data=array('nosamb' => $nosamb ,
 					'status' => $status ,
 					'text' => $text ,
-					'tgl_kirim' => date('YmdHis'));
+					'tgl_kirim' => date('Ymdhis'));
 		$this->db->insert('report_sms', $data);
 	}
 

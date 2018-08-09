@@ -20,17 +20,12 @@ class Curlsms extends CI_Controller {
     function rupiah($angka){
   
     $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
-    return $hasil_rupiah;
- 
-        }
+    return $hasil_rupiah;}
 
 	function kirim(){
 				$numbers=$this->input->post('numbers');
 				$content=str_replace(" ", "%20", $this->input->post('content'));
 		    	$fields_string ="account=eimspdamprob&password=123456&numbers=".$numbers."&content=".$content;
-            	//echo 'http://103.81.246.52:20003/sendsms?'.$fields_string;
-            	// //echo $content."Success";
-            	// echo "<br>";
             	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 var_dump($insert); 
                 $stts=json_decode($insert);
@@ -45,11 +40,6 @@ class Curlsms extends CI_Controller {
                 }         
                 redirect('report/last/1');		
 	}
-
-    public function tesinsert()
-    {
-        $this->report_model->insert('00000','tesloop','0');
-    }
 
     function replypembayaran(){
                 
@@ -70,7 +60,6 @@ class Curlsms extends CI_Controller {
                 $fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$this->hp($key->nohp)."&content=".$content;
                 $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 $stts=json_decode($insert);
-                //var_dump($insert);
                 echo $cont;
                  if ($stts->status=='0') {
                     $this->report_model->insert($key->nosamb,$insert,'1');

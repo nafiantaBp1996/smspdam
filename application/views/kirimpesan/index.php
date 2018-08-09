@@ -34,8 +34,9 @@
 
                       <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                         <label for="message">Pesan :</label>
-                        <input type="text" name="content" class="form-control">
+                        <textarea type="text" name="content" class="form-control"></textarea>
                         </div>
+
 
                       <br>
 
@@ -48,7 +49,7 @@
                       <div class="ln_solid"></div>
                       <div class="form-group" align="right">
                         
-                          <button type="submit" name="submit" class="btn btn-success">Kirim</button>
+                          <button onclick="kirimpesan()" type="submit" name="submit" class="btn btn-success">Kirim</button>
                         </div>
                      
 

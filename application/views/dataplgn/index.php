@@ -1,8 +1,4 @@
- <div class="nav_menu">
-            <nav>
-              <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-              </div>
+
  <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
@@ -81,3 +77,6 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>

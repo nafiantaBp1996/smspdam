@@ -20,11 +20,33 @@ class Chek_Drd extends CI_Controller {
 	public function start()
 	{	
 		$this->replypembayaran();
-		sleep(3);
+		sleep(2);
 		$this->load->view('komponen/header_refresh');
 		$this->load->view('tagihan/taskschedule');
 		$this->load->view('komponen/footer');	
 	}
+
+
+    public function starts()
+    {   
+        try
+        {
+            $numb = $data=$this->report_model->getSendData()->error();
+            if($numb<10)
+            {
+            throw new Exception ();
+            }
+            else
+            {
+                echo "data valid";
+            }   
+        }
+        catch(Exception $e)
+        {
+            redirect('homes');
+        }   
+    }
+
 	public function stop()
 	{
 		$this->load->view('komponen/header');
