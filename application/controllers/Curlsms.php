@@ -46,6 +46,11 @@ class Curlsms extends CI_Controller {
                 redirect('report/last/1');		
 	}
 
+    public function tesinsert()
+    {
+        $this->report_model->insert('00000','tesloop','0');
+    }
+
     function replypembayaran(){
                 
         $data=$this->report_model->getSendData();
@@ -69,6 +74,7 @@ class Curlsms extends CI_Controller {
                 echo $cont;
                  if ($stts->status=='0') {
                     $this->report_model->insert($key->nosamb,$insert,'1');
+                    sleep(1);
 
                  }
                 else
@@ -109,6 +115,7 @@ class Curlsms extends CI_Controller {
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {
                     $this->report_model->insert($data[0]->nosamb,$insert,'1');
+                    sleep(3);
 
                  }
                 else
@@ -145,6 +152,7 @@ class Curlsms extends CI_Controller {
             	 //var_dump($insert);
             	 if ($stts->status=='0') {
             	 	$this->report_model->insert($key->nosamb,$insert,'1');
+                    sleep(3);
 
             	 }
             	else
