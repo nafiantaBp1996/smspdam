@@ -31,7 +31,10 @@
     <link href="<?php echo base_url(); ?>assets/build/css/custom.min.css" rel="stylesheet">
 
     <!-- SweetAlert -->
-    <link href="<?php echo base_url(); ?>assets/package/dist/sweetalert2.css" rel="stylesheet" type="text/css"/>
+    <!-- <link href="<?php echo base_url(); ?>assets/package/dist/sweetalert2.css" rel="stylesheet" type="text/css"/> -->
+    <link href="<?php echo base_url(); ?>assets/dist/sweetalert.css" rel="stylesheet" type="text/css"/>
+    <script src="<?php echo base_url(); ?>assets/dist/sweetalert.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/sweetalert-dev.js"></script>
     <!-- confirm -->
     
   </head>

@@ -3,20 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tagihan_model extends CI_Model {
 
-	public function dbconnect($servername,$database, $username, $password)
-	{
-		try {
-			$conn = new PDO('mysql:host='.$servername.';dbname='.$database, $username, $password);	
-		} catch (Exception $e) {
-			return false;
-			exit;
-		}
-		return true;
-	}
+	
 
 	public function tagihanPelanggan($id)
 	{
-		$query=$this->db->query("Call tagihanCust ('$id','100')");
+		$query=$this->db->query("Call tagihanCust ('$id','400')");
 		$que=$query->result();
 		mysqli_next_result( $this->db->conn_id );
 		$query->free_result(); 

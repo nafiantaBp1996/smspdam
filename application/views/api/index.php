@@ -59,11 +59,15 @@
                       </thead>
                       <tbody>
                         <?php $i=1; foreach ($data as $key){ ?>
-                        <tr>                          
+                        <tr id="delete">                          
                           <td><?php echo $key->id; ?></td>
                           <td><?php echo $key->variable; ?></td>
                           <td><?php echo $key->value; ?></td>
-                          <td><a href="<?php echo site_url('api/edit_data/'.$key->id); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> <a href="<?php echo site_url('api/delete/'.$key->id); ?>" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+                          <td>
+                            <a href="<?php echo site_url('api/edit_data/'.$key->id); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> 
+                            <!-- <a href="<?php echo site_url('api/delete/'.$key->id); ?>" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> -->
+                            <a  data-id='<?php echo $key->id; ?>' onclick="deleteApi(<?php echo $key->id; ?>)" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                          </td>
                         </tr>
                       <?php $i++; } ?>
                       </tbody>

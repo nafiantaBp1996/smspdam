@@ -13,39 +13,24 @@ class Chek_Drd extends CI_Controller {
 		$this->load->library('curl');
 		$this->load->helper('form');
 		$this->load->helper('url');
-		$this->load->model('tagihan_model');
-		$this->load->model('report_model');
 	}
 
 	public function start()
 	{	
-		$this->replypembayaran();
-		sleep(2);
-		$this->load->view('komponen/header_refresh');
-		$this->load->view('tagihan/taskschedule');
-		$this->load->view('komponen/footer');	
-	}
-
-
-    public function starts()
-    {   
-        try
+        if($this->dbconnect('192.168.0.252','drdpdam.db', 'root', ''))
         {
-            $numb = $data=$this->report_model->getSendData()->error();
-            if($numb<10)
-            {
-            throw new Exception ();
-            }
-            else
-            {
-                echo "data valid";
-            }   
+            $this->replypembayaran();
+            sleep(2);
+            $this->load->view('komponen/header_refresh');
+            $this->load->view('tagihan/taskschedule');
+            $this->load->view('komponen/footer');
         }
-        catch(Exception $e)
+        else
         {
-            redirect('homes');
-        }   
-    }
+            redirect('chek_Drd/stop','refresh');
+        }
+			
+	}
 
 	public function stop()
 	{
@@ -54,11 +39,24 @@ class Chek_Drd extends CI_Controller {
 		$this->load->view('komponen/footer');
 	}
 
+    public function dbconnect($servername,$database, $username, $password)
+    {
+        try {
+            $conn = new PDO('mysql:host='.$servername.';dbname='.$database, $username, $password);  
+        } catch (Exception $e) {
+            return false;
+            exit;
+        }
+        return true;
+    }
+
 	function replypembayaran(){
                 
+        $this->load->model('report_model');
         $data=$this->report_model->getSendData();
         $fields_string="";
         $jmlData=count($data);
+        $kode_pengiriman=$this->randomString(4);
         if ($jmlData>0)
         {
             foreach($data as $key){
@@ -74,25 +72,40 @@ class Chek_Drd extends CI_Controller {
                 $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {
-                    $this->report_model->insert($key->nosamb,$insert,'1');
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'1');
+                    $this->report_model->deleteData($key->kode);
                     sleep(1);
 
                  }
                 else
                 {
-                    $this->report_model->insert($key->nosamb,$insert,'0');
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
+                    $this->report_model->deleteData($key->kode);
                 }
             }
                 else
                 {
                     $insert='Nomor Tidak Ada';
-                    $this->report_model->insert($key->nosamb,$insert,'0');
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
+                    $this->report_model->deleteData($key->kode);
                 }
-                $this->report_model->truncateSenddata();
             }
 
         }
         
+    }
+
+    function randomString($length) 
+    {
+        $str = "";
+        $characters = array_merge(range('A','Z'), range('0','9'));
+        $max = count($characters) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $rand = mt_rand(0, $max);
+            $str .= $characters[$rand];
+        }
+        $rand=$str.date('ymd');
+        return $rand;
     }
     function hp($nohp) {
      // kadang ada penulisan no hp 0811 239 345

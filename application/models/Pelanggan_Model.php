@@ -6,8 +6,8 @@ class Pelanggan_Model extends CI_Model {
 
 	public function daftarpelanggan()
 	{
-		
-		return $this->db->get('pelanggan')->result();
+		$result=$this->db->query("select * from pelanggan limit 1000");
+		return $result->result();
 	}
 
 	

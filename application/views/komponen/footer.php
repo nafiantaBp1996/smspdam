@@ -10,6 +10,7 @@
     </div>
 
     <!-- SweetAlert -->
+<<<<<<< HEAD
     <script type="text/javascript">
   $('#logot').on("click",function(){
   swal({
@@ -25,6 +26,45 @@
   });
 });
 </script>
+=======
+     <!-- <script src="<?php echo base_url() ?>assets/package/dist/sweetalert2.min.js" type="text/javascript"></script> -->
+     <script>
+         function deleteApi(id) {
+            var a = id;
+             swal({
+                  title: "Are you sure?",
+                  text: "Your will not be able to recover this imaginary file!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Yes, delete it!",
+                  closeOnConfirm: false
+                },
+                function(){
+                  $.ajax({
+                    url: "<?php echo site_url('Api/delete/') ?>"+a,
+                    type: "post",
+                    success:function(isConfirm) {
+                        swal("Deleted!","Data Berhasil Di Hapus", "success");
+                            if(isConfirm)
+                            {
+                               location.reload();
+                            }
+                            else
+                            {
+                                delay(10);
+                                location.reload();   
+                            }
+                    },
+                    error:function() {
+                        swal("Data Gagal Di Hapus", "error");
+                    }
+                  });
+                });
+    }
+     </script>
+    </script>
+>>>>>>> 4344356abe5db80e2d0c27b773fdc480d696a833
     
 
     <!-- jQuery -->

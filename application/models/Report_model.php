@@ -22,14 +22,25 @@ class Report_model extends CI_Model {
 		return $query->result();
 	}
 
-	public function truncateSenddata()
+	public function getReport($kode_pengiriman)
 	{
-		$this->db->truncate('senddata');
+
+		$query=$this->db->query("SELECT	kode_pengiriman,COUNT(IF(`status`= 0,1,NULL)) AS gagal ,COUNT(IF(`status`= 1,1,NULL)) AS berhasil,tgl_kirim FROM report_sms WHERE kode_pengiriman = '$kode_pengiriman'");
+		return $query->result();
 	}
 
-	public function insert($nosamb,$text,$status)
+	
+
+	public function deleteData($id)
 	{
-		$data=array('nosamb' => $nosamb ,
+		$this->db->where('kode', $id);
+		$this->db->delete('senddata');
+	}
+
+	public function insert($kode_pengiriman,$nosamb,$text,$status)
+	{
+		$data=array('kode_pengiriman' => $kode_pengiriman ,
+					'nosamb' => $nosamb ,
 					'status' => $status ,
 					'text' => $text ,
 					'tgl_kirim' => date('Ymdhis'));

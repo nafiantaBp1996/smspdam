@@ -12,30 +12,14 @@ class Report extends CI_Controller {
 		$this->load->view('report/index', $data);
 		$this->load->view('komponen/footer');
 	}
-	public function Last($limit)
+	public function Last($kode_pengiriman)
 	{
 		$this->load->model('report_model');
-		$data['report']=$this->report_model->gets($limit);
-		
+		$data['report']=$this->report_model->getReport($kode_pengiriman);
 		$this->load->view('komponen/header');
-		$this->load->view('report/index', $data);
+		$this->load->view('report/last', $data);
 		$this->load->view('komponen/footer');	
-	}
-
-	public function dbcheck()
-	{
-		$this->load->model('tagihan_model');
-		if($this->tagihan_model->dbconnect('192.168.0.252','drdpdam.db', 'root', ''))
-		{
-			redirect('home','refresh');
-		}
-		else
-		{
-			redirect('homes','refresh');
-		}
-	}
-
-	
+	}	
 	
 }
 

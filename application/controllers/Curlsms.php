@@ -41,51 +41,6 @@ class Curlsms extends CI_Controller {
                 redirect('report/last/1');		
 	}
 
-    function replypembayaran(){
-                
-        $data=$this->report_model->getSendData();
-        $fields_string="";
-        $jmlData=count($data);
-        if ($jmlData>0)
-        {
-            foreach($data as $key){
-            if(strlen($key->nohp)>10 && strlen($key->nohp)<14)
-            {
-                $nama=str_replace("'", "",$key->nama);
-                if (strlen($key->nama)>15) {
-                    $nama = substr($key->nama, 0, 15);
-                }
-                $cont = "PDAM KOTA PROBOLINGGO: Yth ".$nama." Terima Kasih telah membayar sebesar Rp ".$key->total;
-                $content=str_replace(" ", "%20", $cont);
-                $fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$this->hp($key->nohp)."&content=".$content;
-                $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
-                $stts=json_decode($insert);
-                echo $cont;
-                 if ($stts->status=='0') {
-                    $this->report_model->insert($key->nosamb,$insert,'1');
-                    sleep(1);
-
-                 }
-                else
-                {
-                    $this->report_model->insert($key->nosamb,$insert,'0');
-                }
-            }
-                else
-                {
-                    $insert='Nomor Tidak Ada';
-                    $this->report_model->insert($key->nosamb,$insert,'0');
-                }
-                $this->report_model->truncateSenddata();
-            }
-
-        }
-        
-    }
-
-
-	
-
     function pesan($nosamb)
     {
         $fields_string=""; 
@@ -125,6 +80,7 @@ class Curlsms extends CI_Controller {
 		$fields_string="";
 		$data=$this->tagihan_model->tagihanPelanggan($this->input->post('status'));
 		$jmlData=count($data);
+        $kode_pengiriman=$this->randomString(4);
 		foreach($data as $key){
 			if(strlen($key->nohp)>10 && strlen($key->nohp)<14)
 			{
@@ -134,28 +90,27 @@ class Curlsms extends CI_Controller {
 				}
 				$cont = "PDAM KOTA PROBOLINGGO - Yth ".$nama.", SA.".$key->nosamb." Tagihan Anda Saat ini ".$key->lmbr." bulan sebesar : ".$this->rupiah($key->total)." info lebih Lanjut :  bit.ly/pdamprob";
 				$content=str_replace(" ", "%20", $cont);
-            	$fields_string ="account=eimspdamprob&password=123456&numbers=".$this->hp($key->nohp)."&content=".$content;
+            	$fields_string ="account=eimspdamp&password=12346&numbers=".$this->hp($key->nohp)."&content=".$content;
             	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
             	$stts=json_decode($insert);
             	 //var_dump($insert);
             	 if ($stts->status=='0') {
-            	 	$this->report_model->insert($key->nosamb,$insert,'1');
-                    sleep(3);
+            	 	$this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'1');
 
             	 }
             	else
             	{
-            		$this->report_model->insert($key->nosamb,$insert,'0');
+            		$this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
             	}
             }
             else
             {
             	$insert='Nomor Tidak Ada';
-            	$this->report_model->insert($key->nosamb,$insert,'0');
+            	$this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
             }
         }
 
-    redirect('report/last/'.$jmlData);
+    redirect("report/last/$kode_pengiriman");
 }
  function hp($nohp) {
      // kadang ada penulisan no hp 0811 239 345
@@ -179,7 +134,19 @@ class Curlsms extends CI_Controller {
          }
      }
      return $hp;
- }   
+ }
+ function randomString($length) 
+    {
+        $str = "";
+        $characters = array_merge(range('A','Z'), range('0','9'));
+        $max = count($characters) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $rand = mt_rand(0, $max);
+            $str .= $characters[$rand];
+        }
+        $rand=$str.date('ymd');
+        return $rand;
+    }   
 
 }
 
