@@ -49,10 +49,9 @@
                       <div class="ln_solid"></div>
                       <div class="form-group" align="right">
                         
-                          <button onclick="kirimpesan()" type="submit" name="submit" class="btn btn-success">Kirim</button>
+                          <button onclick="kirimpesan()"  name="submit" class="btn btn-success">Kirim</button>
                         </div>
-                     
-
+                         
                     </form>
 
                   </div>

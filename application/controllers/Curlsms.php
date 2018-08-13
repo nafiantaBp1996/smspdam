@@ -123,7 +123,6 @@ class Curlsms extends CI_Controller {
 	function broadcast()
 	{
 		$fields_string="";
-		if (isset($_POST['submit'])) {
 		$data=$this->tagihan_model->tagihanPelanggan($this->input->post('status'));
 		$jmlData=count($data);
 		foreach($data as $key){
@@ -155,7 +154,6 @@ class Curlsms extends CI_Controller {
             	$this->report_model->insert($key->nosamb,$insert,'0');
             }
         }
-    }
 
     redirect('report/last/'.$jmlData);
 }

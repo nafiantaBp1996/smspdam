@@ -7,11 +7,18 @@ $password = "";
 
 // Create connection
 
-$conn = mysqli_connect($servername, $username, $password, $database);
+/*$conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
       die("Connection failed: " . mysqli_connect_error());
 }
 echo "Connected successfully<br>";
+*/
+$conn='';
+try {
+		  $conn=connect($servername, $username, $password, $database); 
+		} catch (Exception $e) { 
+		  echo 'unConnected to database'; 
+		}
 
 $sql = "select * from senddata";
 $result = mysqli_query($conn, $sql);
@@ -34,28 +41,14 @@ else{
 
 mysqli_close($conn);
 
-
-function kirim()
-{
-	$ch = curl_init("http://103.81.246.52:20003/sendsms?");
-	$fields_string  ="account=eimspdamprob&password=123456&numbers=6285233270426&content=TES";
- 
-	//set the url, number of POST vars, POST data
-
-	curl_setopt($ch,CURLOPT_CUSTOMREQUEST,"POST");
-	curl_setopt($ch,CURLOPT_POSTFIELDS, json_decode($fields_string));
-	curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch,CURLOPT_HTTPHEADER, array('Content-Type:application/json,Content-Type:application/json'));
-
-	//execute post
-	$result = curl_exec($ch);
-	//close connection
-	curl_close($ch);
- 
-    echo "<pre>";
-    print_r($result); 
-    echo "</pre>";
-}
+function connect($servername, $username, $password, $database) { 
+		   try { 
+		      $mysqli = new mysqli($servername, $username, $password, $database); 
+		      $connected = true; 
+		   } catch (mysqli_sql_exception $e) { 
+		      throw $e; 
+		   } 
+		}
 
 ?>
 

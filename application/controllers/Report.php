@@ -22,6 +22,21 @@ class Report extends CI_Controller {
 		$this->load->view('komponen/footer');	
 	}
 
+	public function dbcheck()
+	{
+		$this->load->model('tagihan_model');
+		if($this->tagihan_model->dbconnect('192.168.0.252','drdpdam.db', 'root', ''))
+		{
+			redirect('home','refresh');
+		}
+		else
+		{
+			redirect('homes','refresh');
+		}
+	}
+
+	
+	
 }
 
 /* End of file pelanggan.php */

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<!-- <!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -62,7 +62,4 @@ p {
 		<?php echo $message; ?>
 	</div>
 </body>
-</html> -->
-<?php 
-redirect('chek_drd/stop','refresh')
-?>
+</html>

@@ -10,28 +10,21 @@
     </div>
 
     <!-- SweetAlert -->
-     <script src="<?php echo base_url() ?>assets/package/dist/sweetalert2.min.js" type="text/javascript"></script>
-     <script>
-        function kirimpesan (){
-        swal({
-          title: 'Apakah kamu Yakin?',
-          text: "Ingin Mengirim Pesan!",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yakin!'
-        }).then((result) => {
-          if (result.value) {
-            swal(
-              'Terkirim!',
-              'Pesan terkirim.',
-              'success'
-            )
-          }
-})
-        }
-    </script>
+    <script type="text/javascript">
+  $('#logot').on("click",function(){
+  swal({
+    title:"",
+    text:"keluar dari Siakad SMAN 5?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Keluar",
+    closeOnConfirm: true,
+  },
+    function(){
+      window.location="<?php echo base_url('index.php/login/logoutSiswa'); ?>"
+  });
+});
+</script>
     
 
     <!-- jQuery -->
