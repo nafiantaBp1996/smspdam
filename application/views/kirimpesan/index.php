@@ -25,7 +25,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                   <form action="<?php echo site_url('curlsms/kirim') ?>" method="POST" role="form">
+                   <form method="POST" role="form">
                      <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                       <label for="message">Nomor HP :</label>
                         <input type="number" class="form-control" id="inputSuccess5" placeholder="Awali dengan 62 bukan 0" name="numbers" required="required">

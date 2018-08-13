@@ -55,8 +55,9 @@ class Api extends CI_Controller {
 	public function delete($id)
 	{
 		$id = array('id' => $id );
+		// $id = $this->input->post("id");
 		$this->Api_model->delete('api',$id);
-		redirect('api/index','refresh');
+		redirect('api/index');
 	}
 }
 
