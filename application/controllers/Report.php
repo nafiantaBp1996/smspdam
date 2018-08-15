@@ -19,6 +19,20 @@ class Report extends CI_Controller {
 		$this->load->view('komponen/header');
 		$this->load->view('report/last', $data);
 		$this->load->view('komponen/footer');	
+	}
+	public function akhir($limit)
+	{
+		$this->load->model('report_model');
+		$data=$this->report_model->gets($limit);
+		echo json_encode($data);
+	}
+	public function Lastest($limit)
+	{
+		$this->load->model('report_model');
+		$data['report']=$this->report_model->gets($limit);
+		$this->load->view('komponen/header');
+		$this->load->view('report/index', $data);
+		$this->load->view('komponen/footer');
 	}	
 	
 }

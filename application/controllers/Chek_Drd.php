@@ -19,14 +19,17 @@ class Chek_Drd extends CI_Controller {
 	{	
         if($this->dbconnect('192.168.0.252','drdpdam.db', 'root', ''))
         {
+            $this->inputDataFromCloudToLocal();
             $this->replypembayaran();
             sleep(2);
+            $this->load->model('report_model');
+            $data['report']=$this->report_model->report_drd();    
             $this->load->view('komponen/header_refresh');
-            $this->load->view('tagihan/taskschedule');
+            $this->load->view('tagihan/taskschedule',$data);
             $this->load->view('komponen/footer');
         }
         else
-        {
+        {   
             redirect('chek_Drd/stop','refresh');
         }
 			
@@ -34,8 +37,10 @@ class Chek_Drd extends CI_Controller {
 
 	public function stop()
 	{
+        $this->load->model('report_model');
+        $data['report']=$this->report_model->report_drd(); 
 		$this->load->view('komponen/header');
-		$this->load->view('tagihan/taskschedule');
+		$this->load->view('tagihan/taskschedule',$data);
 		$this->load->view('komponen/footer');
 	}
 
@@ -51,9 +56,9 @@ class Chek_Drd extends CI_Controller {
     }
 
 	function replypembayaran(){
-                
+
         $this->load->model('report_model');
-        $data=$this->report_model->getSendData();
+        $data=$this->report_model->getSendDataLocal();
         $fields_string="";
         $jmlData=count($data);
         $kode_pengiriman=$this->randomString(4);
@@ -68,26 +73,26 @@ class Chek_Drd extends CI_Controller {
                 }
                 $cont = "PDAM KOTA PROBOLINGGO: Yth ".$nama." Terima Kasih telah membayar sebesar Rp ".$key->total;
                 $content=str_replace(" ", "%20", $cont);
-                $fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$this->hp($key->nohp)."&content=".$content;
+                $fields_string ="account=eimspdamprob&password=pdamprob218&numbers=".$this->hp($key->nohp)."&content=".$content;
                 $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {
-                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'1');
-                    $this->report_model->deleteData($key->kode);
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'2');
+                    $this->report_model->deleteDatalocal($key->kode);
                     sleep(1);
 
                  }
                 else
                 {
-                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
-                    $this->report_model->deleteData($key->kode);
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'3');
+                    $this->report_model->deleteDatalocal($key->kode);
                 }
             }
                 else
                 {
                     $insert='Nomor Tidak Ada';
-                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
-                    $this->report_model->deleteData($key->kode);
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'4');
+                    $this->report_model->deleteDatalocal($key->kode);
                 }
             }
 
@@ -107,7 +112,8 @@ class Chek_Drd extends CI_Controller {
         $rand=$str.date('ymd');
         return $rand;
     }
-    function hp($nohp) {
+    function hp($nohp)
+    {
      // kadang ada penulisan no hp 0811 239 345
      $nohp = str_replace(" ","",$nohp);
      // kadang ada penulisan no hp (0274) 778787
@@ -129,9 +135,27 @@ class Chek_Drd extends CI_Controller {
          }
      }
      return $hp;
- } 
+    }
+    public function inputDataFromCloudToLocal()
+    {
+        $this->load->model('report_model');
+        $data=$this->report_model->getSendDataCloud();
+        if (count($data)>0) {
+            foreach ($data as $key)
+                {
+                    $data=array('kode' => $key->kode ,
+                        'nosamb' => $key->nosamb ,
+                        'total' => $key->total ,
+                        'tglbayar' => $key->tglbayar ,
+                        'loketbayar' => $key->loketbayar);
 
-
+                $this->report_model->deleteDataCloud($key->kode); 
+                $this->report_model->insertServerToLocal($data);
+                }
+        }
+        return count($data);     
+    }
+     
 }
 
 /* End of file controllername.php */

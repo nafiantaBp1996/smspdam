@@ -23,22 +23,28 @@ class Curlsms extends CI_Controller {
     return $hasil_rupiah;}
 
 	function kirim(){
-				$numbers=$this->input->post('numbers');
-				$content=str_replace(" ", "%20", $this->input->post('content'));
-		    	$fields_string ="account=eimspdamprob&password=123456&numbers=".$numbers."&content=".$content;
-            	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
-                var_dump($insert); 
-                $stts=json_decode($insert);
-                var_dump($stts);
-                 if ($stts->status=='0') {
-                    $this->report_model->insert('-','kirim manual ke '.$numbers.$insert,'1');
+				$numbers=$_POST['nohp'];
+				$content=str_replace(" ", "%20", $_POST['content']);
+                if(strlen($numbers)>10 && strlen($numbers)<14){
+    		    	$fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$numbers."&content=".$content;
+                	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
+                    var_dump($insert); 
+                    $stts=json_decode($insert);
+                    var_dump($stts);
+                     if ($stts->status=='0') {
+                        $this->report_model->insert("XXXXXXX",'--',$numbers.$insert,'1');
 
-                 }
+                     }
+                    else
+                    {
+                        $this->report_model->insert("XXXXXXX",'--',$numbers.$insert,'0');
+                    }
+                }
                 else
                 {
-                    $this->report_model->insert('-','kirim manual ke '.$numbers.$insert,'0');
+                     $this->report_model->insert("XXXXXXX",'--','nomor salah','0');
                 }         
-                redirect('report/last/1');		
+                //redirect('report/last/1');		
 	}
 
     function pesan($nosamb)
@@ -58,13 +64,13 @@ class Curlsms extends CI_Controller {
                 $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {
-                    $this->report_model->insert($data[0]->nosamb,$insert,'1');
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'1');
                     sleep(3);
 
                  }
                 else
                 {
-                    $this->report_model->insert($data[0]->nosamb,$insert,'0');
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
                 }
             }
             else
@@ -77,8 +83,9 @@ class Curlsms extends CI_Controller {
 
 	function broadcast()
 	{
+        $limit=$this->input->post('akhir')-$this->input->post('awal');
 		$fields_string="";
-		$data=$this->tagihan_model->tagihanPelanggan($this->input->post('status'));
+		$data=$this->tagihan_model->tagihanPelanggan($this->input->post('status'),$limit,$this->input->post('awal'));
 		$jmlData=count($data);
         $kode_pengiriman=$this->randomString(4);
 		foreach($data as $key){
@@ -90,8 +97,9 @@ class Curlsms extends CI_Controller {
 				}
 				$cont = "PDAM KOTA PROBOLINGGO - Yth ".$nama.", SA.".$key->nosamb." Tagihan Anda Saat ini ".$key->lmbr." bulan sebesar : ".$this->rupiah($key->total)." info lebih Lanjut :  bit.ly/pdamprob";
 				$content=str_replace(" ", "%20", $cont);
-            	$fields_string ="account=eimspdamp&password=12346&numbers=".$this->hp($key->nohp)."&content=".$content;
-            	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
+            	$fields_string ="account=eimspdampr&password=pdamprob&numbers=".$this->hp($key->nohp)."&content=".$content;
+            	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10));
+                sleep(1); 
             	$stts=json_decode($insert);
             	 //var_dump($insert);
             	 if ($stts->status=='0') {
@@ -121,7 +129,7 @@ class Curlsms extends CI_Controller {
      $nohp = str_replace(")","",$nohp);
      // kadang ada penulisan no hp 0811.239.345
      $nohp = str_replace(".","",$nohp);
- 
+     $hp='';
      // cek apakah no hp mengandung karakter + dan 0-9
      if(!preg_match('/[^+0-9]/',trim($nohp))){
          // cek apakah no hp karakter 1-3 adalah +62
@@ -135,6 +143,7 @@ class Curlsms extends CI_Controller {
      }
      return $hp;
  }
+
  function randomString($length) 
     {
         $str = "";

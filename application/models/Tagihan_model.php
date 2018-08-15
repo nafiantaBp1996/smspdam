@@ -5,9 +5,9 @@ class Tagihan_model extends CI_Model {
 
 	
 
-	public function tagihanPelanggan($id)
+	public function tagihanPelanggan($id,$limit,$offset)
 	{
-		$query=$this->db->query("Call tagihanCust ('$id','400')");
+		$query=$this->db->query("Call tagihanCust ('$id','$limit',$offset)");
 		$que=$query->result();
 		mysqli_next_result( $this->db->conn_id );
 		$query->free_result(); 

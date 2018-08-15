@@ -14,25 +14,63 @@ class Tagihan extends CI_Controller {
 	// List all your items
 	public function lancar()
 	{
-		$this->load->model('tagihan_model');
-		$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('1');
-		$data['title']="Pelanggan Lancar";
-		$data['status']=1;
-		//$data="";
-		$this->load->view('komponen/header', $data);
-		$this->load->view('tagihan/index',$data);
-		$this->load->view('komponen/footer');
+		if($this->input->post('awal')==null || $this->input->post('akhir')==null)
+		{
+			$this->load->model('tagihan_model');
+			$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('1','100','0');
+			$data['title']="Pelanggan Lancar";
+			$data['status']=1;
+			$data['awal']=0;
+			$data['akhir']=100;
+			//$data="";
+			$this->load->view('komponen/header', $data);
+			$this->load->view('tagihan/index',$data);
+			$this->load->view('komponen/footer');
+		}
+		else
+		{
+			$limit=$this->input->post('akhir')-$this->input->post('awal');
+			$this->load->model('tagihan_model');
+			$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('1',$limit,$this->input->post('awal'));
+			$data['title']="Pelanggan Lancar";
+			$data['status']=1;
+			$data['awal']=$this->input->post('awal');
+			$data['akhir']=$this->input->post('akhir');
+			//$data="";
+			$this->load->view('komponen/header', $data);
+			$this->load->view('tagihan/index',$data);
+			$this->load->view('komponen/footer');
+		}
 	}
 	public function tidaklancar()
 	{
-		$this->load->model('tagihan_model');
-		$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('0');
-		$data['title']="Pelanggan Tidak Lancar";
-		$data['status']=0;
-		//$data="";
-		$this->load->view('komponen/header', $data);
-		$this->load->view('tagihan/index',$data);
-		$this->load->view('komponen/footer');
+		if($this->input->post('awal')==null || $this->input->post('akhir')==null)
+		{
+			$this->load->model('tagihan_model');
+			$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('0','100','0');
+			$data['title']="Pelanggan Lancar";
+			$data['status']=0;
+			$data['awal']=0;
+			$data['akhir']=100;
+			//$data="";
+			$this->load->view('komponen/header', $data);
+			$this->load->view('tagihan/index',$data);
+			$this->load->view('komponen/footer');
+		}
+		else
+		{
+			$limit=$this->input->post('akhir')-$this->input->post('awal');
+			$this->load->model('tagihan_model');
+			$data['dataPelanggan']=$this->tagihan_model->tagihanPelanggan('0',$limit,$this->input->post('awal'));
+			$data['title']="Pelanggan Lancar";
+			$data['status']=0;
+			$data['awal']=$this->input->post('awal');
+			$data['akhir']=$this->input->post('akhir');
+			//$data="";
+			$this->load->view('komponen/header', $data);
+			$this->load->view('tagihan/index',$data);
+			$this->load->view('komponen/footer');
+		}
 	}
 
 	// Add a new item

@@ -10,36 +10,76 @@ function rupiah($angka){
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              
-
+            </div>
+            <div class="title_left">
+              </div>
+            <div class="pull-right">
+              <?php if ($this->uri->segment(2)=='lancar')
+              {
+                echo form_open('tagihan/lancar');
+              } else 
+              {
+                echo form_open('tagihan/tidaklancar');
+              } ?>
+                      <div class="form-group col-xs-4">
+                        <label for="inputsm">Batas Awal</label>
+                        <input class="form-control input-sm" id="awal" name="awal" type="numbers" required placeholder="Batas Awal" value="<?php echo $awal; ?>">
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="inputsm">Akhir</label>
+                        <input class="form-control input-sm" id="akhir" name="akhir" type="numbers" required placeholder="Batas Akhir" value="<?php echo $akhir; ?>">
+                      </div>
+                      <div class="form-group col-xs-3" >
+                        <label for="inputsm"></label>
+                        <button type="submit" class="btn btn-default btn-block"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Load</button>
+                      </div>
+              <?php echo form_close(); ?>
+                      
             </div>
 
             <div class="clearfix"></div>
-
-            
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Data Tagihan <small><?php echo $title ?></small></h2>
                     <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a></li>
                     </ul>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    
+                    <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" id="cekNosamb" onclick="nosamb()">
+                            No Samb
+                            <input type="number" name="" id="textNosamb" class="form-control" value="" pattern="" title="" style="display: none;" >
+                          </label>
+                        </div>
+
+                        
+                      </div>
+                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="checkbox">
+                      <label>
+                        <input type="checkbox" id="cekTag"  onclick="tagihan()">
+                        Tagihan
+                        <input type="text" name="" id="textTag" class="form-control" value="" pattern="" title="" style="display: none;" >
+                      </label>
+                      
+                    </div>  
+                      </div>
+                      <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-search"></span> Filter</button>    
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                      <legend></legend>
           
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                        <thead>
@@ -72,11 +112,14 @@ function rupiah($angka){
                       </tbody>
                     </table>
                   </div>
+                  </div>
 
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <form action="<?php echo site_url('curlsms/broadcast') ?>" method="POST" role="form">
-                        <button type="submit" name="submit" class=" btn btn-large btn-block btn-warning"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Kirim Peringatan Ke Semua List</button>
-                        <input type="text" name="status" hidden value="<?php echo $status ?>" >
+                    <form id="myForm" action="<?php echo site_url('curlsms/broadcast') ?>" method="POST">
+                        <input type="text" name="status" value="<?php echo $status ?>" hidden>
+                         <input type="text" hidden="" id="awal" name="awal" value="<?php echo $awal; ?>" >
+                        <input type="text"  hidden="" id="akhir" name="akhir" value="<?php echo $akhir; ?>" >
+                        <a onclick="alertt()" value="Submit form" class="btn btn-block btn-warning">Kirim Pesan Ke Customer</a>
                     </form>
                     </div>
                 </div>
@@ -84,4 +127,35 @@ function rupiah($angka){
             
           </div>
         </div>
+        <script type="text/javascript">
+          function alertt() {
+            swal({
+            title: "Anda Yakin Mengirim Pesan?",
+            text: "Anda Tidak bisa membatalkan aksi ini",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#94e881',
+            confirmButtonText: 'Kirim',
+            cancelButtonText: "Batalkan!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+         },
+         function(isConfirm){
+
+           if (isConfirm)
+             {
+                  swal("Terkirim", "Pesan Terkirim", "success");
+                  myFunction();
+            }
+           else
+             {
+                swal("Tidak Terkirim", "Maaf Pesan Tdak terkirim Cek No Hp", "error");
+             }
+          });
+        };
+
+         function myFunction() {
+                    document.getElementById("myForm").submit();
+                }
+        </script>
         <!-- /page content -->
