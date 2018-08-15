@@ -86,7 +86,7 @@
                   </li>
                   <li><a href="<?php echo site_url('Report') ?>"><i class="fa fa-book"></i>Report</span></a>                    
                   </li>
-                  <li><a href="<?php echo site_url('api') ?>"><i class="fa fa-fire"></i>API</span></a>                    
+                  <!-- <li><a href="<?php echo site_url('api') ?>"><i class="fa fa-fire"></i>API</span></a>                     -->
                   </li>
                 </ul>
               </div>

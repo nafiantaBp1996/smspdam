@@ -30,6 +30,7 @@
                        
                         <tr>
                           <th>No</th>
+                          <th>Kode</th>
                           <th>No Samb</th>
                           <th>Tgl Kirim</th>
                           <th>Text Report</th>
@@ -40,6 +41,7 @@
                         <?php $i=1; foreach ($report as $key) { ?>
                         <tr>
                         <td><?php echo $i; ?></td>
+                        <td><?php echo $key->kode_pengiriman; ?></td>
                         <td><?php echo $key->nosamb; ?></td>
                         <td><?php echo $key->tgl_kirim; ?></td>
                         <td><?php echo $key->text; ?></td>

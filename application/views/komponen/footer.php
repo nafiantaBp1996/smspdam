@@ -9,8 +9,7 @@
       </div>
     </div>
 
-    <!-- SweetAlert -->
-<<<<<<< HEAD
+
     <script type="text/javascript">
   $('#logot').on("click",function(){
   swal({
@@ -26,8 +25,6 @@
   });
 });
 </script>
-=======
-     <!-- <script src="<?php echo base_url() ?>assets/package/dist/sweetalert2.min.js" type="text/javascript"></script> -->
      <script>
          function deleteApi(id) {
             var a = id;
@@ -64,7 +61,6 @@
     }
      </script>
     </script>
->>>>>>> 4344356abe5db80e2d0c27b773fdc480d696a833
     
 
     <!-- jQuery -->
