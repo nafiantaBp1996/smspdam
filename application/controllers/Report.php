@@ -33,8 +33,7 @@ class Report extends CI_Controller {
 		$this->load->view('komponen/header');
 		$this->load->view('report/index', $data);
 		$this->load->view('komponen/footer');
-	}	
-	
+	}		
 }
 
 /* End of file pelanggan.php */

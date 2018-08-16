@@ -61,8 +61,7 @@
     }
      </script>
     </script>
-    
-
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/function.js"></script>
     <!-- jQuery -->
     <script src="<?php echo base_url(); ?>assets/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->

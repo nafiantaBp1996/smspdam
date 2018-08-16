@@ -13,23 +13,33 @@ function rupiah($angka){
             </div>
             <div class="title_left">
               </div>
-            <div class="pull-right">
-              <?php if ($this->uri->segment(2)=='lancar')
-              {
-                echo form_open('tagihan/lancar');
-              } else 
-              {
-                echo form_open('tagihan/tidaklancar');
-              } ?>
-                      <div class="form-group col-xs-4">
-                        <label for="inputsm">Batas Awal</label>
-                        <input class="form-control input-sm" id="awal" name="awal" type="numbers" required placeholder="Batas Awal" value="<?php echo $awal; ?>">
+            <div>
+              <?php echo form_open('tagihan/FilterData'); ?>
+                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                          <label>
+                            <input name="chknosamb" value="checked" type="checkbox" id="cekNosamb" onclick="nosamb()">
+                            No Samb
+                            <input type="number" id="textNosamb" class="form-control" name="nos" disabled >
+                          </label>
                       </div>
-                      <div class="form-group col-xs-4">
-                        <label for="inputsm">Akhir</label>
-                        <input class="form-control input-sm" id="akhir" name="akhir" type="numbers" required placeholder="Batas Akhir" value="<?php echo $akhir; ?>">
+                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                          <label>
+                            <input name="chktagihan" value="checked" type="checkbox" id="cekTag"  onclick="tagihan()">
+                            Tagihan
+                            <input type="number" id="textTag" class="form-control" name="tag" disabled placeholder="minimal"><br>
+                            <input type="number" id="textTagMax" class="form-control" name="tagmax" disabled placeholder="maximal">
+                          </label>
                       </div>
-                      <div class="form-group col-xs-3" >
+
+                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">                        
+                          <label>
+                            <input name="chktotal" type="checkbox" value="checked" id="cekTot" onclick="total()">
+                            Total
+                            <input type="number" name="totmin" id="textTotmin" class="form-control" disabled placeholder="minimal"><br>
+                            <input type="number" name="totmax" id="textTotmax" class="form-control" disabled placeholder="maximal">
+                          </label>                       
+                      </div>
+                      <div class="form-group col-xs-2" >
                         <label for="inputsm"></label>
                         <button type="submit" class="btn btn-default btn-block"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Load</button>
                       </div>
@@ -41,7 +51,7 @@ function rupiah($angka){
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Data Tagihan <small><?php echo $title ?></small></h2>
+                    <h2>Filter Data<small><?php echo $title ?></small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                       <li><a class="close-link"><i class="fa fa-close"></i></a></li>
@@ -87,9 +97,9 @@ function rupiah($angka){
 
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <form id="myForm" action="<?php echo site_url('curlsms/broadcast') ?>" method="POST">
-                        <input type="text" name="status" value="<?php echo $status ?>" hidden>
-                         <input type="text" hidden="" id="awal" name="awal" value="<?php echo $awal; ?>" >
-                        <input type="text"  hidden="" id="akhir" name="akhir" value="<?php echo $akhir; ?>" >
+                        <input type="text" name="status" value="<?php echo $status ?>" >
+                         <input type="text"id="awal" name="awal" value="<?php echo $awal; ?>" >
+                        <input type="text" id="akhir" name="akhir" value="<?php echo $akhir; ?>" >
                         <a onclick="alertt()" value="Submit form" class="btn btn-block btn-warning">Kirim Pesan Ke Customer</a>
                     </form>
                     </div>

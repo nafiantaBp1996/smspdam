@@ -80,6 +80,7 @@
                   </li>
                   <li><a><i class="fa fa-clone"></i>Data Tagihan <span class="fa fa-chevron-down"></span></a> 
                   <ul class="nav child_menu" style="display: none;">
+                      <li><a href="<?php echo site_url('tagihan/filter') ?>">Pencarian</a></li>
                       <li><a href="<?php echo site_url('tagihan/lancar') ?>">Pelanggan Lancar</a></li>
                       <li><a href="<?php echo site_url('tagihan/tidaklancar') ?>">Pelanggan Tidak Lancar</a></li>
                     </ul>                   
@@ -112,7 +113,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="<?php echo base_url() ?>assets/images/logo.png" alt="">John Doe
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -136,7 +137,7 @@
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="<?php echo base_url() ?>assets/images/logo.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -148,7 +149,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="<?php echo base_url() ?>assets/images/logo.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -160,7 +161,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="<?php echo base_url() ?>assets/images/logo.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -172,7 +173,7 @@
                     </li>
                     <li>
                       <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span class="image"><img src="<?php echo base_url() ?>assets/images/logo.png" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>

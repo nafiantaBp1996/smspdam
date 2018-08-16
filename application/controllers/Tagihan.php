@@ -73,24 +73,50 @@ class Tagihan extends CI_Controller {
 		}
 	}
 
-	// Add a new item
-	public function add()
+	public function Filter()
 	{
-
+		$this->load->model('tagihan_model');
+		$data['dataPelanggan']=$this->tagihan_model->Filter('');
+		$data['title']="Filter Data";
+		$data['status']=0;
+		$data['awal']=0;
+		$data['akhir']=100;
+		$this->load->view('komponen/header');
+		$this->load->view('tagihan/filter',$data);
+		$this->load->view('komponen/footer');
 	}
 
-	//Update one item
-	public function update( $id = NULL )
+	public function FilterData()
 	{
+		$var="";
+		$data=null;
+		$this->load->model('tagihan_model');
+		if($this->input->post("chknosamb")=='checked')
+		{
+			$nosamb=$this->input->post('nos');
+			$var=$var." AND pelanggan.nosamb='$nosamb' ";
 
+		}
+		if($this->input->post("chktagihan")=='checked')
+		{
+			$tagihan=$this->input->post('tag');$tagmax=$this->input->post('tagmax');
+			$var=$var." AND lmbr BETWEEN '$tagihan' AND '$tagmax'";
+		}
+		if($this->input->post("chktotal")=='checked')
+		{
+			$totmax=$this->input->post('totmax');$totmin=$this->input->post('totmin');
+			$var=$var." AND total BETWEEN '$totmin' AND '$totmax' ";
+		}
+
+		$data=$this->tagihan_model->Filter($var);
+		foreach ($data as $key){
+				echo $key->nosamb."-".$key->total.'-'.$key->lmbr."<br>";	
+			}
+		echo $var;
+		}
+
+			
 	}
-
-	//Delete one item
-	public function delete( $id = NULL )
-	{
-
-	}
-}
 
 /* End of file Tagihan.php */
 /* Location: ./application/controllers/Tagihan.php */
