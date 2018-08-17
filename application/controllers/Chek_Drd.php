@@ -15,13 +15,18 @@ class Chek_Drd extends CI_Controller {
 		$this->load->helper('url');
 	}
 
+    function rupiah($angka){
+  
+    $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+    return $hasil_rupiah;}
+
 	public function start()
 	{	
         if($this->dbconnect('192.168.0.252','drdpdam.db', 'root', ''))
         {
             $this->inputDataFromCloudToLocal();
             $this->replypembayaran();
-            sleep(2);
+            sleep(1);
             $this->load->model('report_model');
             $data['report']=$this->report_model->report_drd();    
             $this->load->view('komponen/header_refresh');
@@ -30,7 +35,7 @@ class Chek_Drd extends CI_Controller {
         }
         else
         {   
-            redirect('chek_Drd/stop','refresh');
+            redirect('chek_Drd/start','refresh');
         }
 			
 	}
@@ -61,38 +66,38 @@ class Chek_Drd extends CI_Controller {
         $data=$this->report_model->getSendDataLocal();
         $fields_string="";
         $jmlData=count($data);
-        $kode_pengiriman=$this->randomString(4);
+        $kode_pengiriman="CHKDRD".date('ymd');
         if ($jmlData>0)
         {
             foreach($data as $key){
             if(strlen($key->nohp)>10 && strlen($key->nohp)<14)
             {
                 $nama=str_replace("'", "",$key->nama);
-                if (strlen($key->nama)>15) {
+                if (strlen($key->nama)>16) {
                     $nama = substr($key->nama, 0, 15);
                 }
-                $cont = "PDAM KOTA PROBOLINGGO: Yth ".$nama." Terima Kasih telah membayar sebesar Rp ".$key->total;
+                $cont = "Yth ".$nama." SA.".$key->nosamb." Terima Kasih anda telah melakukan pembayaran tagihan ".$key->bulan." bulan senilai ".$this->rupiah($key->total).";Di LOKET ".$key->loketbayar." PDAM info: bit.ly/pdamprob";
                 $content=str_replace(" ", "%20", $cont);
-                $fields_string ="account=eimspdamprob&password=pdamprob218&numbers=".$this->hp($key->nohp)."&content=".$content;
+                $fields_string ="account=eimspdamprob&password=pdamprob201&numbers=".$this->hp($key->nohp)."&content=".$content;
                 $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {
-                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'2');
-                    $this->report_model->deleteDatalocal($key->kode);
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert."-".$cont,'2');
+                    $this->report_model->deleteDatalocal($key->nosamb);
                     sleep(1);
 
                  }
                 else
                 {
-                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'3');
-                    $this->report_model->deleteDatalocal($key->kode);
+                    $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert."-".$cont,'3');
+                    $this->report_model->deleteDatalocal($key->nosamb);
                 }
             }
                 else
                 {
                     $insert='Nomor Tidak Ada';
                     $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'4');
-                    $this->report_model->deleteDatalocal($key->kode);
+                    $this->report_model->deleteDatalocal($key->nosamb);
                 }
             }
 

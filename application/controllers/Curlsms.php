@@ -52,6 +52,7 @@ class Curlsms extends CI_Controller {
         $fields_string=""; 
         $data=$this->tagihan_model->tagihanPelangganId($nosamb);
         $jmlData=count($data);
+        $kode_pengiriman=$this->randomString(4);
         if(strlen($data[0]->nohp)>10 && strlen($data[0]->nohp)<14)
             {
                 $nama=$data[0]->nama;
@@ -60,11 +61,12 @@ class Curlsms extends CI_Controller {
                 }
                 $cont = "PDAM KOTA PROBOLINGGO - Yth ".$nama.", SA.".$data[0]->nosamb." Tagihan Anda Saat ini ".$data[0]->lmbr." bulan sebesar : ".$this->rupiah($data[0]->total)." info lebih Lanjut :  bit.ly/pdamprob";
                 $content=str_replace(" ", "%20", $cont);
-                $fields_string ="account=eimspdamprob&password=123456&numbers=".$this->hp($data[0]->nohp)."&content=".$content;
+                $fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$this->hp($data[0]->nohp)."&content=".$content;
                 $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {
                     $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'1');
+
                     sleep(3);
 
                  }
@@ -76,9 +78,9 @@ class Curlsms extends CI_Controller {
             else
             {
                 $insert='Nomor Tidak Ada';
-                $this->report_model->insert($data[0]->nosamb,$insert,'0');
+                $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
             }
-            redirect('report/last/'.$jmlData);
+            redirect("report/last/$kode_pengiriman");
     }
 
 	function broadcast()
@@ -92,23 +94,23 @@ class Curlsms extends CI_Controller {
 			if(strlen($key->nohp)>10 && strlen($key->nohp)<14)
 			{
 				$nama=$key->nama;
-				if (strlen($key->nama)>15) {
+				if (strlen($key->nama)>=16) {
 					$nama = substr($key->nama, 0, 15);
 				}
-				$cont = "PDAM KOTA PROBOLINGGO - Yth ".$nama.", SA.".$key->nosamb." Tagihan Anda Saat ini ".$key->lmbr." bulan sebesar : ".$this->rupiah($key->total)." info lebih Lanjut :  bit.ly/pdamprob";
+				$cont = "Plg.Yth ".$nama.", SA.".$key->nosamb." Tagihan Anda Saat ini ".$key->lmbr." bulan sebesar : ".$this->rupiah($key->total)." info:  bit.ly/pdamprob - abaikan sms ini jika sudah membayar";
 				$content=str_replace(" ", "%20", $cont);
-            	$fields_string ="account=eimspdampr&password=pdamprob&numbers=".$this->hp($key->nohp)."&content=".$content;
+            	$fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$this->hp($key->nohp)."&content=".$content;
             	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10));
                 sleep(1); 
             	$stts=json_decode($insert);
             	 //var_dump($insert);
             	 if ($stts->status=='0') {
-            	 	$this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'1');
+            	 	$this->report_model->insert($kode_pengiriman,$key->nosamb,$insert."-".$cont,'1');
 
             	 }
             	else
             	{
-            		$this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'0');
+            		$this->report_model->insert($kode_pengiriman,$key->nosamb,$insert."-".$cont,'0');
             	}
             }
             else

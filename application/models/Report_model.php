@@ -17,7 +17,7 @@ class Report_model extends CI_Model {
 
 	public function getSendDataLocal()
 	{
-		$query=$this->db->query("SELECT pelanggan.`nama`,`pelanggan`.`nohp`,senddata.* FROM senddata LEFT JOIN pelanggan ON senddata.nosamb=pelanggan.`nosamb` ORDER BY tglbayar DESC");
+		$query=$this->db->query("SELECT COUNT(senddata.nosamb) AS bulan,pelanggan.`nama`,`pelanggan`.`nohp`,senddata.nosamb,`senddata`.`tglbayar`,senddata.`loketbayar`,SUM(senddata.total) as total FROM senddata LEFT JOIN pelanggan ON senddata.nosamb=pelanggan.`nosamb` GROUP BY nosamb ORDER BY tglbayar DESC ");
 		return $query->result();
 	}
 
@@ -38,12 +38,12 @@ class Report_model extends CI_Model {
 	public function report_drd()
 	{	
 		$tgl=date('Ymd');
-		$query=$this->db->query("SELECT COUNT(id) AS total, COUNT(IF(`status`= 4,1,NULL)) AS nonumber,COUNT(IF(`status`= 3,1,NULL)) AS gagal,COUNT(IF(`status`= 2,1,NULL)) AS sukses FROM report_sms WHERE DATE_FORMAT(tgl_kirim,'%Y%m%d')='$tgl'");
+		$query=$this->db->query("SELECT COUNT(id) AS total, COUNT(IF(`status`= 4,1,NULL)) AS nonumber,COUNT(IF(`status`= 3,1,NULL)) AS gagal,COUNT(IF(`status`= 2,1,NULL)) AS sukses FROM report_sms WHERE DATE_FORMAT(tgl_kirim,'%Y%m%d')='$tgl' And status between 2 and 4");
 		return $query->result();
 	}
 	public function deleteDataLocal($id)
 	{
-		$this->db->where('kode', $id);
+		$this->db->where('nosamb', $id);
 		$this->db->delete('senddata');
 	}
 	public function deleteDataCloud($id)

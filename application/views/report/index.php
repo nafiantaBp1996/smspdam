@@ -45,7 +45,7 @@
                         <td><?php echo $key->nosamb; ?></td>
                         <td><?php echo $key->tgl_kirim; ?></td>
                         <td><?php echo $key->text; ?></td>
-                        <td><?php if ($key->status==1)
+                        <td><?php if ($key->status==1||$key->status==2)
                         {
                           echo "<b style='color:green;'>Success</b>";
                         } else

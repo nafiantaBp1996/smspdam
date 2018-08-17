@@ -13,42 +13,14 @@ function rupiah($angka){
             </div>
             <div class="title_left">
               </div>
-            <div>
-              <?php echo form_open('tagihan/FilterData'); ?>
-                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                          <label>
-                            <input name="chknosamb" value="checked" type="checkbox" id="cekNosamb" onclick="nosamb()">
-                            No Samb
-                            <input type="number" id="textNosamb" class="form-control" name="nos" disabled >
-                          </label>
-                      </div>
-                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                          <label>
-                            <input name="chktagihan" value="checked" type="checkbox" id="cekTag"  onclick="tagihan()">
-                            Tagihan
-                            <input type="number" id="textTag" class="form-control" name="tag" disabled placeholder="minimal"><br>
-                            <input type="number" id="textTagMax" class="form-control" name="tagmax" disabled placeholder="maximal">
-                          </label>
-                      </div>
-
-                      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">                        
-                          <label>
-                            <input name="chktotal" type="checkbox" value="checked" id="cekTot" onclick="total()">
-                            Total
-                            <input type="number" name="totmin" id="textTotmin" class="form-control" disabled placeholder="minimal"><br>
-                            <input type="number" name="totmax" id="textTotmax" class="form-control" disabled placeholder="maximal">
-                          </label>                       
-                      </div>
-                      <div class="form-group col-xs-2" >
-                        <label for="inputsm"></label>
-                        <button type="submit" class="btn btn-default btn-block"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Load</button>
-                      </div>
-              <?php echo form_close(); ?>
-                      
+            <div>     
             </div>
 
             <div class="clearfix"></div>
               <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="pull-right">
+                <button id="compose" class="btn btn-sm btn-success btn-block" type="button"><span class="glyphicon glyphicon-search"></span> Filter Data</button>
+              </div>
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Filter Data<small><?php echo $title ?></small></h2>
@@ -96,10 +68,15 @@ function rupiah($angka){
                   </div>
 
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <form id="myForm" action="<?php echo site_url('curlsms/broadcast') ?>" method="POST">
-                        <input type="text" name="status" value="<?php echo $status ?>" >
-                         <input type="text"id="awal" name="awal" value="<?php echo $awal; ?>" >
-                        <input type="text" id="akhir" name="akhir" value="<?php echo $akhir; ?>" >
+                    <form id="myForm" action="<?php echo site_url('tagihan/broadcastFilter') ?>" method="POST">
+                                <input hidden name="chknosamb" value="checked" type="checkbox" <?php echo $chknosamb ?>>
+                                <input hidden type="number"  name="nos" value="<?php echo $nosamb ?>" >
+                                <input hidden name="chktagihan" value="checked" type="checkbox" <?php echo $chktagihan ?>>
+                                <input hidden type="number" name="tag" value="<?php echo $tagmin ?>">
+                                <input hidden type="number" name="tagmax" value="<?php echo $tagmax ?>">
+                                <input hidden name="chktotal" type="checkbox" value="checked" <?php echo $chktotal ?>>
+                                <input hidden type="number" name="totmin" value="<?php echo $totmin ?>">
+                                <input hidden type="number" name="totmax" value="<?php echo $totmax ?>">                              
                         <a onclick="alertt()" value="Submit form" class="btn btn-block btn-warning">Kirim Pesan Ke Customer</a>
                     </form>
                     </div>
@@ -108,6 +85,54 @@ function rupiah($angka){
             
           </div>
         </div>
+        <!-- compose -->
+        <div class="compose col-md-2 col-xs-12" style="height: 90%;float: left;" >
+          <div class="compose-header">
+            Filter & Pencarian Data
+            <button type="button" class="close compose-close">
+              <span>×</span>
+            </button>
+          </div>
+
+
+           
+
+            <?php echo form_open('tagihan/Filter'); ?>
+                          <div class="col-md-12" style="padding-top: 10px">
+                              <label>
+                                <input name="chknosamb" value="checked" type="checkbox" id="cekNosamb" onclick="nosamb()">
+                                No Samb
+                                <input type="number" id="textNosamb" class="form-control col-md-12" name="nos" disabled >
+                              </label>
+                          </div>
+                          <div class="col-md-12" style="padding-top: 10px">
+                              <label>
+                                <input name="chktagihan" value="checked" type="checkbox" id="cekTag"  onclick="tagihan()">
+                                Tagihan
+                              </label><p>
+                                <input type="number" id="textTag" class="form-control col-md-12" name="tag" disabled placeholder="minimal" ></p> <br>                           
+                              <input  style="margin-top: 5px" type="number" id="textTagMax" class="form-control col-md-12" name="tagmax" disabled placeholder="maximal">
+                          </div>
+                          <p></p>
+                          <div class="col-md-12" style="padding-top: 10px">                        
+                              <label>
+                                <input name="chktotal" type="checkbox" value="checked" id="cekTot" onclick="total()">
+                                Total
+                              </label> 
+                                <input type="number" name="totmin" id="textTotmin" class="form-control col-md-12" disabled placeholder="minimal"><br>
+                                <input style="margin-top: 5px" type="number" name="totmax" id="textTotmax" class="form-control col-md-12" disabled placeholder="maximal">
+                                                    
+                          </div>
+                          <div class="col-md-12">
+                            <label for="inputsm"></label>
+                            <button type="submit" class="btn btn-default btn-block"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Load</button>
+                          </div>
+                  <?php echo form_close(); ?>
+
+          </div>
+
+        </div>
+        <!-- /compose -->
         <script type="text/javascript">
           function alertt() {
             swal({
