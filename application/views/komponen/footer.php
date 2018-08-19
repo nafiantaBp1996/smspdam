@@ -9,22 +9,6 @@
       </div>
     </div>
 
-
-    <script type="text/javascript">
-  $('#logot').on("click",function(){
-  swal({
-    title:"",
-    text:"keluar dari Siakad SMAN 5?",
-    type: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Keluar",
-    closeOnConfirm: true,
-  },
-    function(){
-      window.location="<?php echo base_url('index.php/login/logoutSiswa'); ?>"
-  });
-});
-</script>
      <script>
          function deleteApi(id) {
             var a = id;
@@ -92,6 +76,7 @@
     <script src="<?php echo base_url(); ?>assets/vendors/jszip/dist/jszip.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script src="<?php echo base_url(); ?>assets/vendors/Chart.js/dist/Chart.min.js"></script>
 
 
     <!-- Custom Theme Scripts -->

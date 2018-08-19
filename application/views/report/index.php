@@ -33,7 +33,8 @@
                           <th>Kode</th>
                           <th>No Samb</th>
                           <th>Tgl Kirim</th>
-                          <th>Text Report</th>
+                          <th width="40%">Text Report</th>
+                          <th>Terkirim</th>
                           <th>Status</th>
                         </tr>
                       </thead>
@@ -45,6 +46,7 @@
                         <td><?php echo $key->nosamb; ?></td>
                         <td><?php echo $key->tgl_kirim; ?></td>
                         <td><?php echo $key->text; ?></td>
+                        <td><?php echo $key->total; ?></td>
                         <td><?php if ($key->status==1||$key->status==2)
                         {
                           echo "<b style='color:green;'>Success</b>";

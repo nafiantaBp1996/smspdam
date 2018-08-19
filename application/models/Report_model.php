@@ -35,6 +35,13 @@ class Report_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function getReportDrd($kode_pengiriman,$status)
+	{
+
+		$query=$this->db->query("SELECT	* FROM report_sms WHERE kode_pengiriman = '$kode_pengiriman' and status='$status'");
+		return $query->result();
+	}
+
 	public function report_drd()
 	{	
 		$tgl=date('Ymd');
@@ -59,12 +66,31 @@ class Report_model extends CI_Model {
 					'nosamb' => $nosamb ,
 					'status' => $status ,
 					'text' => $text ,
+					'total' => $status ,
 					'tgl_kirim' => date('ymdhis'));
 		$this->db->insert('report_sms', $data);
 	}
+
+	public function insertBr($kode_pengiriman,$nosamb,$text,$status,$total)
+	{
+		$data=array('kode_pengiriman' => $kode_pengiriman ,
+					'nosamb' => $nosamb ,
+					'status' => $status ,
+					'text' => $text ,
+					'total' => $total ,
+					'tgl_kirim' => date('ymdhis'));
+		$this->db->insert('report_sms', $data);
+	}
+
 	public function insertServerToLocal($data)
 	{
 		$this->db->insert('senddata', $data);
+	}
+
+	public function loadchart()
+	{
+		$query=$this->db->query("SELECT DATE_FORMAT(tgl_kirim,'%M%Y') AS tgl,SUM(total) AS sukses, COUNT(IF(`status`= 4,1,NULL)) AS nonumber,COUNT(IF(`status`= 3,1,NULL)) AS gagal FROM report_sms WHERE YEAR(tgl_kirim)= YEAR(NOW())  GROUP BY DATE_FORMAT(tgl_kirim,'%Y%m%d')");
+		return $query->result();
 	}
 
 }

@@ -34,6 +34,31 @@
         }
     }
 
+    function rayon() {
+        var cb = document.getElementById("cekRayon");
+        var te = document.getElementById("selRayon");
+        if (cb.checked == true) {
+            te.disabled=false;
+        } else {
+            te.disabled=true;
+        }
+    }
+    function kelurahan() {
+        var cb = document.getElementById("cekKelurahan");
+        var te = document.getElementById("selKelurahan");
+        if (cb.checked == true) {
+            te.disabled=false;
+        } else {
+            te.disabled=true;
+        }
+    }
 
-
-
+    function golongan() {
+        var cb = document.getElementById("cekGolongan");
+        var te = document.getElementById("selGolongan");
+        if (cb.checked == true) {
+            te.disabled=false;
+        } else {
+            te.disabled=true;
+        }
+    }

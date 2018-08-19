@@ -22,16 +22,24 @@ class Chek_Drd extends CI_Controller {
 
 	public function start()
 	{	
-        if($this->dbconnect('192.168.0.252','drdpdam.db', 'root', ''))
+        if(true/*$this->dbconnect('192.168.0.252','drdpdam.db', 'root', '')*/)
         {
-            $this->inputDataFromCloudToLocal();
-            $this->replypembayaran();
+            //$this->inputDataFromCloudToLocal();
+            //$this->replypembayaran();
             sleep(1);
             $this->load->model('report_model');
             $data['report']=$this->report_model->report_drd();    
+            $chrt=$this->report_model->loadchart();
+                $dat='';
+                foreach ($chrt as $key) {
+
+                     $dat=$dat."{tahun:'".$key->tgl."', sukses:'".$key->sukses."', nonumb:'".$key->nonumber."', gagal:'".$key->gagal."'},";
+                }
+            $data['chart']=substr($dat,0,-1);
             $this->load->view('komponen/header_refresh');
             $this->load->view('tagihan/taskschedule',$data);
             $this->load->view('komponen/footer');
+
         }
         else
         {   
@@ -42,7 +50,15 @@ class Chek_Drd extends CI_Controller {
 
 	public function stop()
 	{
+
         $this->load->model('report_model');
+        $chrt=$this->report_model->loadchart();
+        $dat='';
+        foreach ($chrt as $key) {
+
+             $dat=$dat."{tahun:'".$key->tgl."', sukses:'".$key->sukses."', nonumb:'".$key->nonumber."', gagal:'".$key->gagal."'},";
+        }
+        $data['chart']=substr($dat,0,-1);
         $data['report']=$this->report_model->report_drd(); 
 		$this->load->view('komponen/header');
 		$this->load->view('tagihan/taskschedule',$data);

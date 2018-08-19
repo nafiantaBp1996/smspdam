@@ -33,6 +33,15 @@ class Report extends CI_Controller {
 		$this->load->view('komponen/header');
 		$this->load->view('report/index', $data);
 		$this->load->view('komponen/footer');
+	}
+	public function reportdrd($status)
+	{
+		$string = "CHKDRD".date('ymd');
+		$this->load->model('report_model');
+		$data['report']=$this->report_model->getReportDrd($string,$status);
+		$this->load->view('komponen/header');
+		$this->load->view('report/index', $data);
+		$this->load->view('komponen/footer');
 	}		
 }
 

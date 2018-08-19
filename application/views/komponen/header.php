@@ -73,16 +73,23 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href="<?php echo site_url('Chek_drd/stop') ?>"><i class="fa fa-home"></i>Home </a>                   
-                  </li>  
-                  <li><a href="<?php echo site_url('home') ?>"><i class="fa fa-envelope"></i>Kirim Pesan </a>                   
+                  </li>
+                  <li><a><i class="fa fa-envelope"></i>Kirim Pesan <span class="fa fa-chevron-down"></span></a> 
+                  <ul class="nav child_menu" style="display: none;">
+                      <li><a href="<?php echo site_url('pesan') ?>">Pesan</a></li>
+                      <li><a href="<?php echo site_url('pesan/broadcast') ?>">Broadcast</a></li>
+                      <li class="active"><a>Tagihan<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu" style="display: none;">
+                            <li><a href="<?php echo site_url('tagihan/lancar') ?>">Lancar</a>
+                            </li>
+                            <li><a href="<?php echo site_url('tagihan/tidaklancar') ?>">Tidak Lancar</a>
+                            </li>
+                          </ul>
+                        </li>
+                    </ul>                   
+                  </li>   
                   </li>                 
                   <li><a href="<?php echo site_url('pelanggan') ?>"><i class="fa fa-clone"></i>Data Pelanggan</span></a>                    
-                  </li>
-                  <li><a><i class="fa fa-clone"></i>Data Tagihan <span class="fa fa-chevron-down"></span></a> 
-                  <ul class="nav child_menu" style="display: none;">
-                      <li><a href="<?php echo site_url('tagihan/lancar') ?>">Pelanggan Lancar</a></li>
-                      <li><a href="<?php echo site_url('tagihan/tidaklancar') ?>">Pelanggan Tidak Lancar</a></li>
-                    </ul>                   
                   </li>
                   <li><a href="<?php echo site_url('Report') ?>"><i class="fa fa-book"></i>Report</span></a>                    
                   </li>

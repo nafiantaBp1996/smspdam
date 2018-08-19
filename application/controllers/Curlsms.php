@@ -28,9 +28,7 @@ class Curlsms extends CI_Controller {
                 if(strlen($numbers)>10 && strlen($numbers)<14){
     		    	$fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$numbers."&content=".$content;
                 	$insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
-                    var_dump($insert); 
                     $stts=json_decode($insert);
-                    var_dump($stts);
                      if ($stts->status=='0') {
                         $this->report_model->insert("XXXXXXX",'--',$numbers.$insert,'1');
 
@@ -44,7 +42,6 @@ class Curlsms extends CI_Controller {
                 {
                      $this->report_model->insert("XXXXXXX",'--','nomor salah','0');
                 }         
-                //redirect('report/last/1');		
 	}
 
     function pesan($nosamb)
@@ -66,7 +63,6 @@ class Curlsms extends CI_Controller {
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {
                     $this->report_model->insert($kode_pengiriman,$key->nosamb,$insert,'1');
-
                     sleep(3);
 
                  }
