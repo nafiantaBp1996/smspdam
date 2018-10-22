@@ -22,10 +22,10 @@ class Chek_Drd extends CI_Controller {
 
 	public function start()
 	{	
-        if(true/*$this->dbconnect('192.168.0.252','drdpdam.db', 'root', '')*/)
+        if($this->dbconnect('192.168.0.252','drdpdam.db', 'root', ''))
         {
-            //$this->inputDataFromCloudToLocal();
-            //$this->replypembayaran();
+            $this->inputDataFromCloudToLocal();
+            $this->replypembayaran();
             sleep(1);
             $this->load->model('report_model');
             $data['report']=$this->report_model->report_drd();    
@@ -94,7 +94,7 @@ class Chek_Drd extends CI_Controller {
                 }
                 $cont = "Yth ".$nama." SA.".$key->nosamb." Terima Kasih anda telah melakukan pembayaran tagihan ".$key->bulan." bulan senilai ".$this->rupiah($key->total).";Di LOKET ".$key->loketbayar." PDAM info: bit.ly/pdamprob";
                 $content=str_replace(" ", "%20", $cont);
-                $fields_string ="account=eimspdamprob&password=pdamprob201&numbers=".$this->hp($key->nohp)."&content=".$content;
+                $fields_string ="account=eimspdamprob&password=pdamprob2018&numbers=".$this->hp($key->nohp)."&content=".$content;
                 $insert=$this->curl->simple_post('http://103.81.246.52:20003/sendsms?'.$fields_string, array(CURLOPT_BUFFERSIZE => 10)); 
                 $stts=json_decode($insert);
                  if ($stts->status=='0') {

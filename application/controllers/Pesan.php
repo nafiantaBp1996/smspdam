@@ -60,7 +60,8 @@ class Pesan extends CI_Controller {
     public function kirim()
     {
     	$var='';
-	    $data=$this->pelanggan_model->daftarpelangganfilter($this->input->post('query'));
+	    //$data=$this->pelanggan_model->daftarpelangganfilter($this->input->post('query'));
+	    $data=$this->pelanggan_model->daftarkar();
 	    foreach ($data as $key) {
 	    	if(strlen($key->nohp)>10 && strlen($key->nohp)<14)
 	    	{
@@ -112,8 +113,8 @@ class Pesan extends CI_Controller {
 		else
 		{
 			$this->load->model('Pelanggan_Model');
-			$data['daftarpelanggan']=array();
-			$data['que']=null;
+			$data['daftarpelanggan']=$this->Pelanggan_Model->daftarkar();
+			$data['que']='asa';
 			$data['rayon']=$this->Pelanggan_Model->daftarrayon();
 			$data['pesan']=$this->Pelanggan_Model->daftarPesan();
 			$data['kelurahan']=$this->Pelanggan_Model->daftarkelurahan();
